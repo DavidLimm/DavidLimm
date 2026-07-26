@@ -12,14 +12,17 @@ jobs:
       contents: write
     steps:
       - name: Generate stats card
-        uses: jstrippel/github-stats-transparent@v1
+        uses: soulteary/github-readme-stats-action@v1.0.0
+        with:
+          card: stats
+          options: 'username=DavidLimm&show_icons=true&theme=dracula&include_all_commits=true&count_private=true'
+          path: output/stats.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to stats-output branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          username: DavidLimm
-          output_branch: stats-output
-          hide_title: false
-          hide_rank: false
-          show_icons: true
-          include_all_commits: true
-          count_private: true
-          theme: dracula
+          publish_dir: ./output
+          publish_branch: stats-output
+          force_orphan: true
