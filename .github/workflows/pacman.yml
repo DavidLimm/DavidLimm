@@ -1,0 +1,31 @@
+name: Generate Pacman Contribution Graph
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Generate pacman graph
+        uses: abozanona/pacman-contribution-graph@main
+        with:
+          github_user_name: DavidLimm
+
+      - name: Prepare output files
+        run: |
+          mkdir -p output
+          cp dist/pacman-contribution-graph.svg output/pacman-contribution-graph.svg
+          cp dist/pacman-contribution-graph.svg output/pacman-contribution-graph-dark.svg
+
+      - name: Publish to pacman-output branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: pacman-output
+          force_orphan: true
