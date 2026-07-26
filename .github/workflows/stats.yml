@@ -1,10 +1,8 @@
 name: Generate Stats Card
-
 on:
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,8 +15,7 @@ jobs:
           card: stats
           options: 'username=DavidLimm&show_icons=true&theme=dracula&include_all_commits=true&count_private=true'
           path: output/stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
-
+          token: ${{ secrets.STATS_TOKEN }}
       - name: Publish to stats-output branch
         uses: peaceiris/actions-gh-pages@v4
         with:
